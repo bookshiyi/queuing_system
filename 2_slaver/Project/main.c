@@ -20,12 +20,12 @@
 #include "key.h"
 #include "buzz.h"
 
-u8  Data_buff[1024];     //数据缓冲区
+u8  Data_buff[64];     //数据缓冲区
 u8  Data_len[5];         //数据长度缓冲区
 u8  Data_id[5];          //数据发送者的id缓冲区
 
 
-u8 Send_Data[2];		//给主机发送数据的缓存
+u8 Send_Data[64];		//给主机发送数据的缓存
 
 /**
   * @file   main
@@ -42,8 +42,9 @@ int main(void)
   SYSTICK_Init();	    //延时函数初始化
   LED_GPIO_Config();
 	BUZZ_GPIO_Config();
-	Exti_Config(1);//按键中断配置
-  Nvic_Config();//???????按键中断向量配置
+	KEY_GPIO_Config();////////////////////////////////////
+	//Exti_Config();//按键中断配置
+  //Nvic_Config();//???????按键中断向量配置
 	
   delay_ms(1500);     //等待芯片上电复位成功
 	OLED_Init(); 
@@ -53,23 +54,23 @@ int main(void)
 	delay_ms(1000);
 	printf("<<Z>0"); 
 	delay_ms(3000);
-	printf("<V>4"); 	//音量设置
+	printf("<V>4"); 	//音量设置/////////////////////////////
 	delay_ms(2000);
 
 	
 
 	OLED_DispStr(0, 15, "  Slaver OK  ", &tFont12);
-	OLED_DispStr(0, 15, "------------------", &tFont12);
+	OLED_DispStr(0, 30, "------------------", &tFont12);
 	OLED_DispStr(15, 45, "Please Wait...", &tFont12);     
 	
 
   ESP8266_Exit_Transfer(10);//检测是否在透传状态，如果在则退出
-  printf("\r\n连接主机!\r\n");
+  printf("\r\n连接主机\r\n");
 
   res1=ESP8266_STA_TCPCLient();
   switch(res1)
   {
-    case 0  :  printf("连接主机成功，进入透传\r\n");
+    case 0  :  printf("进入透传\r\n");
 								OLED_DispStr(0, 45, "Connected Success", &tFont12);
 								break;
     case 1  :  printf("软件复位失败! 准备重启\r\n");
@@ -99,7 +100,7 @@ int main(void)
     case 7  :  printf("连接主机失败，主机未开启，准备重连\r\n");
 								OLED_DispStr(0, 45, "Master Closed", &tFont12);
 								;break;
-    case 8  :  printf("已经连接主机\r\n");
+    case 8  :  printf("已连接主机\r\n");
 								OLED_DispStr(0, 45, "Connected", &tFont12);
 								break;
     case 9  :  printf("连接主机失败!,准备重启\r\n");
@@ -135,45 +136,65 @@ int main(void)
   memset(USART2_RX_BUF,0,USART2_REC_LEN); //清除串口2数据
   while(1)
   {
+		
+		if((KEY1_Status_Read() == 0) || (KEY2_Status_Read() == 0) || (KEY3_Status_Read() == 0))
+		{			
+			delay_ms(10);
+			if((KEY1_Status_Read() == 0) || (KEY2_Status_Read() == 0) || (KEY3_Status_Read() == 0))
+			{
+				Send_Data[0]='Q';
+				Send_Data[1]='?';//请求队首的数据
+				Send_Data[2]='\0';
+				
+				u2_printf("%s",Send_Data);//数据发送给主机
+
+				Beep(200);
+				LEDXToggle(LED1);LEDXToggle(LED2);LEDXToggle(LED3);
+			}
+		}
+		
+		
+		
     if(USART2_RX_STA&0x8000)//如果收到主机发来的数据
     {
       len=USART2_RX_STA&0x7FFF;
       memcpy(Data_buff,USART2_RX_BUF,len);
+			memset(USART2_RX_BUF,0,USART2_REC_LEN); //清除串口2数据
       USART2_RX_STA=0;		
       Data_buff[len]='\0';
-			if(Data_buff[0]==0xA5 && Data_buff[1]>0)
-			{
-				//Data_buff[1] = Data_buff[1]+'0';
-				
-				num[0]=Data_buff[1]/100 +48;
-				num[1]=Data_buff[1]%100/10 +48;
-				num[2]=Data_buff[1]%100%10 +48;
-				num[3]=0;
-				printf("<Z>1");
-				delay_ms(1500);
-				printf("<Z>4");
-				delay_ms(1500);
-				printf("请 %s号客户办理业务\r\n",num);
-				
-				OLED_DispStr(0, 45, "正在接待  号客户", &tFont12);//无人排队
-				OLED_DisDigital(30, 45,Data_buff[1], &tFont12);//oled显示
-			}
-			else if(Data_buff[1]==0)//暂时无人排队
-			{
-				printf("暂时没有排队客户\r\n");
-				OLED_DispStr(0, 45, "Queue is Empty", &tFont12);//无人排队
-			}
 			
+			//printf("收到数据%s\r\n",Data_buff);//调试使用
+			
+			if('Q'==Data_buff[0] )
+			{
+				if(('0'==Data_buff[1])&&('0'==Data_buff[2])&&('0'==Data_buff[3]))//暂时无人排队
+				{
+					printf("暂时没有排队客户\r\n");
+					OLED_DispStr(0, 45, "暂时没有排队客户  ", &tFont12);//无人排队
+				}
+				else//有客户排队
+				{
+					num[0]=Data_buff[1];//字符转ascii
+					num[1]=Data_buff[2];
+					num[2]=Data_buff[3];
+					num[3]='\0';
+					printf("<Z>1");
+					delay_ms(1500);
+					printf("<Z>4");
+					delay_ms(1500);
+					OLED_DispStr(0, 45, "正接待    号客户   ", &tFont12);//无人排队
+					OLED_DispStr(42, 45,num, &tFont12);//oled显示
+					printf("请%s号客户办理业务\r\n",num);
+				}
+			}
+			else
+			{
+					OLED_DispStr(0, 45, "通讯错误", &tFont12);//通信出现问题
+					OLED_DisDigital(60, 45,*num, &tFont12);//oled显示
+					printf("通讯错误\r\n");
+			}
     }
-    if(Beep_flag == 1)
-		{
-			Beep(200);
-			Beep_flag=0;
-			Send_Data[0]=0X5A;
-			Send_Data[1]=0X01;//请求队首的数据
-			
-			u2_printf("%s",Send_Data);//数据发送给主机
-		}
+
 
   }
 }

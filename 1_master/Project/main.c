@@ -21,6 +21,7 @@
 #include "key.h"
 #include "buzz.h"
 #include "queue.h"
+#include "printer.h"
 
 
 
@@ -33,7 +34,7 @@ u8  Data_buff[2048];     //数据缓冲区
 u8  Data_len[5];         //数据长度缓冲区
 u8  Data_id[5];          //数据发送者的id缓冲区
 
-u8 Return_Data[2];//返回给从机的数据
+u8 Return_Data[4];//返回给从机的数据
 
 /**
   * @file   main
@@ -48,10 +49,11 @@ u8 Return_Data[2];//返回给从机的数据
   /*初始化LED端口*/
   LED_GPIO_Config();
 	BUZZ_GPIO_Config();
+	KEY_GPIO_Config();////////////////////////////////////
   SYSTICK_Init();
   Queue_Data_Init();
 	
-	Exti_Config(1);//按键中断配置
+	//Exti_Config(1);//按键中断配置////////////////////////////
   Nvic_Config();//???????按键中断向量配置
 	
 	OLED_Init(); 
@@ -84,12 +86,7 @@ u8 Return_Data[2];//返回给从机的数据
 	Beep(1000);//开机成功
   while(1)
   {	   
-		if(Beep_flag == 1)
-		{
-			Beep(200);
-			Beep_flag=0;
-			Queue_Tail_Join();//加入队尾
-		}
+
     switch(ESP8266_Get_LinkSta())
     {
 			//OLED_DispStr(0,  45, "                  ", &tFont12);//清空部分显示
@@ -103,26 +100,44 @@ u8 Return_Data[2];//返回给从机的数据
 				OLED_DispStr(0,  30, "Disconnected", &tFont12);
 			
 			break;
+			default:
+			break;
 				
     }
+		if((KEY1_Status_Read() == 0) || (KEY2_Status_Read() == 0) || (KEY3_Status_Read() == 0))
+		{
+			delay_ms(10);
+			if((KEY1_Status_Read() == 0) || (KEY2_Status_Read() == 0) || (KEY3_Status_Read() == 0))
+			{
+					Beep(200);
+					LEDXToggle(1);LEDXToggle(2);LEDXToggle(3);
+					Queue_Tail_Join();//加入队尾
+					Print_Queue_Info();//打印排队信息
+			}
+		}
     if(ESP8266_Get_Data(Data_buff,Data_len,Data_id))
     {
-      printf("连接id:%s有%s字节数据到来\r\n",Data_id,Data_len);
-      printf("数据:%s\r\n",Data_buff);
+      //printf("连接id:%s有%s字节数据到来\r\n",Data_id,Data_len);
+      //printf("数据:%s\r\n",Data_buff);
 			
-			if(Data_buff[0]==0X5A && Data_buff[1]==0X01)//请求队首的指令
+			if(Data_buff[0]=='Q' )//请求队首的指令
 			{
-				Return_Data[0]=0xA5;//返回数据的帧头
+				Return_Data[0]='Q';//返回数据的帧头
 				if(Queue_Head_Inquire()==Queue_Tail_Inquire())//如果队首和队尾相等，说明没有客户
-					Return_Data[1]=0;//返回0给从机
+				{
+					Return_Data[1]='0';//返回0给从机
+					Return_Data[2]='0';//返回0给从机
+					Return_Data[3]='0';//返回0给从机
+				}
 				else
 				{
 					Queue_Head_Depart();
-					Return_Data[1]=Queue_Head_Inquire();
+					Return_Data[1]=Queue_Head_Inquire()/100+'0';
+					Return_Data[2]=((Queue_Head_Inquire()%100)/10)+'0';
+					Return_Data[3]=((Queue_Head_Inquire()%100)%10)+'0';
 				}
-				ESP8266_SendData(Char_to_Hex(Data_id,strlen((const char *)Data_id)),Return_Data,2,50);//5s的发送超时时间		数据1 长度 数据2 长度 超时时间
+				ESP8266_SendData(Char_to_Hex(Data_id,strlen((const char *)Data_id)),Return_Data,4,50);//5s的发送超时时间		数据1 长度 数据2 长度 超时时间
 			}
-			
     }
   }		
 }

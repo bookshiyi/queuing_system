@@ -21,7 +21,7 @@ Target DLL:      Segger\JL2CM3.dll V2.99.13.0
 Dialog DLL:      TCM.DLL V1.14.4.0
  
 <h2>Project:</h2>
-E:\1_workspace\201804_master_slaver_esp8266\1_src\1_master\Project\MDK-ARM\TcpServer_Ap.uvprojx
+E:\1_workspace\201804_queuing_system\GITHUB\queuing_system-master\1_master\Project\MDK-ARM\TcpServer_Ap.uvprojx
 Project File Date:  05/01/2018
 
 <h2>Output:</h2>
@@ -37,11 +37,13 @@ compiling main.c...
   u16 Queue_Tail_Inquire();//查询队尾
 ..\queue.h(16): warning:  #1295-D: Deprecated declaration Queue_Head_Inquire - give arg types
   u16 Queue_Head_Inquire();//查询队首
-..\main.c: 5 warnings, 0 errors
+..\queue.h(17): warning:  #1295-D: Deprecated declaration Queue_Length - give arg types
+  u16 Queue_Length();
+..\main.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=21154 RO-data=7606 RW-data=92 ZI-data=6404  
+Program Size: Code=21954 RO-data=7606 RW-data=92 ZI-data=6404  
 FromELF: creating hex file...
-".\obj\TcpServer_AP.axf" - 0 Error(s), 5 Warning(s).
+".\obj\TcpServer_AP.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -52,7 +54,7 @@ Package Vendor: ARM
    * Component: CORE Version: 3.40.0
 
 <h2>Collection of Component include folders:</h2>
-  E:\1_workspace\201804_master_slaver_esp8266\1_src\1_master\Project\MDK-ARM\RTE
+  E:\1_workspace\201804_queuing_system\GITHUB\queuing_system-master\1_master\Project\MDK-ARM\RTE
   C:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include
   C:\Program Files (x86)\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0
 

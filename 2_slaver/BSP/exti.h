@@ -21,7 +21,7 @@
 #define KEY3_BUTTON_EXTI_IRQn             EXTI9_5_IRQn
 
 
-void Exti_Config(u8 status);
+//void Exti_Config( );
 void Nvic_Config(void);
 void EXTI9_5_IRQHandler(void);
 //void EXTI15_10_IRQHandler(void);

@@ -36,6 +36,7 @@
 ".\obj\exti.o"
 ".\obj\key.o"
 ".\obj\buzz.o"
+".\obj\printer.o"
 ".\obj\main.o"
 ".\obj\stm32f10x_it.o"
 ".\obj\queue.o"

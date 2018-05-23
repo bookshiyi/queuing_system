@@ -14,7 +14,7 @@ void Queue_Head_Depart();//离开队首
 void Queue_Tail_Join();//加入队尾
 u16 Queue_Tail_Inquire();//查询队尾
 u16 Queue_Head_Inquire();//查询队首
-
+u16 Queue_Length();
 
 #endif
 

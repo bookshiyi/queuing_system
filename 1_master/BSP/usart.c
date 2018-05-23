@@ -124,6 +124,21 @@ void USART1_IRQHandler(void)
     }   		 
   } 
 } 
+
+
+
+void USART_putc(uint8_t ch)//????
+{
+  USART_SendData(USART1, (uint8_t) ch);	
+	while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET)
+  {}
+}
+void USART_puts(uint8_t *str,unsigned char num)//?????
+{
+	unsigned char i;
+	for(i=0;i<num;i++)
+		USART_putc(str[i]);	
+}
 #endif
 
 /**

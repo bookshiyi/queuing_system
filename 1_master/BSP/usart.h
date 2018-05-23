@@ -12,6 +12,9 @@ extern u8  USART_RX_BUF[USART_REC_LEN]; //½ÓÊÕ»º³å,×î´óUSART_REC_LEN¸ö×Ö½Ú.Ä©×Ö½
 extern u16 USART_RX_STA;         		//½ÓÊÕ×´Ì¬±ê¼Ç	
 
 void USART1_Config(u32 bound);
+void USART_putc(uint8_t ch);//????
+void USART_puts(uint8_t *str,unsigned char num);//?????
+
 #endif
 
 

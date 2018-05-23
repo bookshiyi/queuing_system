@@ -8,8 +8,8 @@ Queue_Data_TypeDef Queue_Data;//定义排队数据结构图
 
 void Queue_Data_Init()
 {
-	Queue_Data.Head=1;
-	Queue_Data.Tail=1;
+	Queue_Data.Head=0;
+	Queue_Data.Tail=0;
 }
 
 void Queue_Head_Depart()//离开队首
@@ -30,3 +30,7 @@ u16 Queue_Head_Inquire()//查询队首
 	return Queue_Data.Head;
 }
 
+u16 Queue_Length()//查询队列长度
+{
+	return (Queue_Data.Tail-Queue_Data.Head);
+}

@@ -41,3 +41,4 @@
 .\obj\main.o: ..\..\BSP\key.h
 .\obj\main.o: ..\..\BSP\buzz.h
 .\obj\main.o: ..\queue.h
+.\obj\main.o: ..\..\BSP\printer.h

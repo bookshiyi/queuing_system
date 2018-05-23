@@ -1,0 +1,33 @@
+.\obj\printer.o: ..\..\BSP\printer.c
+.\obj\printer.o: ..\..\BSP\printer.h
+.\obj\printer.o: ..\..\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h
+.\obj\printer.o: ..\..\Libraries\CMSIS\CM3\CoreSupport\core_cm3.h
+.\obj\printer.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\printer.o: ..\..\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\system_stm32f10x.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_conf.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_adc.h
+.\obj\printer.o: ..\..\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_bkp.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_can.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_crc.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_dac.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_dbgmcu.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_dma.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_exti.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_flash.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_fsmc.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_gpio.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_i2c.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_iwdg.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_pwr.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rcc.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rtc.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_sdio.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_spi.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_tim.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_usart.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_wwdg.h
+.\obj\printer.o: ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h
+.\obj\printer.o: ..\..\BSP\usart.h
+.\obj\printer.o: C:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\printer.o: ..\..\Project\queue.h

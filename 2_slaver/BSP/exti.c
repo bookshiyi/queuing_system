@@ -23,7 +23,7 @@ void Delay(u32 n);
   * @param  无
   * @retval 无
   */
-void Exti_Config(u8 status)
+void Exti_Config( )
 {	
 	/*查看外部中断/事件线路映像
   PA0、PB0、PC0、PD0、PE0、PF0、PG0 ————>映像于 EXTI0
@@ -47,10 +47,7 @@ void Exti_Config(u8 status)
   //设置为下降沿触发
   EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;//下降沿触发
   //设置为使能中断线
-	if(status == 1)
 		EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-	else
-		EXTI_InitStructure.EXTI_LineCmd = DISABLE;
   //调用库函数，初始化中断
   EXTI_Init(&EXTI_InitStructure);
 }
